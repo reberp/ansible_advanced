@@ -1,0 +1,13 @@
+#init
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+
+#build the ssh image
+dockerfile from dev.to/s1ntaxe770r/
+docker build -t ubuntu_ssh .
+docker run -it -d ubuntu_ssh
+
+#remove all 
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
