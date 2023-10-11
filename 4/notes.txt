@@ -1,0 +1,5 @@
+
+Using ansible galaxy to create the roles with ansible-galaxy init name
+Use roles instead of tasks then. Then we can distribute to two machines. 
+mysql created with galaxy
+main.yml is the default for the role to run tasks. 
