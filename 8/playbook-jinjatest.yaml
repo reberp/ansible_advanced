@@ -1,0 +1,23 @@
+- name: deploy a web app
+  hosts: localhost 
+  vars:
+    name: testname
+  tasks:
+    - debug:
+        msg: "Hello {{name}}"
+    - debug:
+        msg: "Hello {{name | upper}}"
+    - debug:
+        msg: "Hello {{name | replace(\"test\",\"test1\")}}"
+    - debug:
+        msg: "Hello {{name1 | default(\"a\")}}"                      
+    - debug: 
+        msg: "{{ [1,2,3] | max }}"
+    - debug:
+        msg: "{{ ['Hello','world'] | join(' ')}}"
+    - debug: 
+        msg: "{{ '/etc/hosts'| basename }}"
+    - debug: 
+        msg: "{{ 'c:\\windows\\hosts' | win_basename }}" #or win_splitdrive | last
+    #tiny amount of all the filters avail
+    # ansible docs have a bunch of good examples for specific use cases. 
