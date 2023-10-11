@@ -1,0 +1,25 @@
+- name: deploy a web app
+  hosts: db_and_web_server1
+  roles:
+    - python
+    - mysql_db
+    - flask_web
+  tasks:
+    - name: copy source
+      copy: src=test_async.py dest=/opt/test_async.py force=yes
+      become: yes
+      become_user: root
+      become_method: sudo    
+
+    - name: test async1
+      command: python3 /opt/test_async.py 
+      async: 120 #how long to run. Still blocking during this time if not poll 0. 
+      poll: 0   #how often to check. Set to 0 to move on while it waits.  
+      register: async1_result
+
+    - name: check statuses
+      async_status: jid={{ async1_result.ansible_job_id }}
+      register: job_result
+      until: job_result.finished
+      retries: 30
+
