@@ -1,0 +1,5 @@
+db_name: employee_db
+db_user: db_user
+db_password: 12345
+ansible_ssh_pass: "{{ lookup('csvfile', 'web_and_db_server1 file=info.csv delimiter=,') }}"
+ansible_sudo_pass: pat
