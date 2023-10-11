@@ -1,0 +1,5 @@
+ansible-vault encrypt <file>
+ansible-playbook --ask-vault-pass
+ansible-playbook --vault-password-file ~/.vault_pass.txt
+ansible-playbook --vault-password-file ~/.vault_pass.py
+ansible-vault view 
