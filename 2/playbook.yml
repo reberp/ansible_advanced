@@ -1,0 +1,60 @@
+- name: deploy a web app
+  hosts: db_and_web_server2
+  tasks:
+    - name: install depenencies
+      apt: 
+        name: ['python3', 'python-setuptools', 'python3-dev', 
+'build-essential', 'python3-pip', 'python3-apt'] 
+        state: present
+      become: yes
+
+    - name: install mysql
+      apt: 
+        name: ['mysql-server','mysql-client','python3-mysqldb','libmysqlclient-dev']
+        state: present
+      become: yes
+
+    - name: install msql depenencies
+      pip: 
+          name: ['flask==2.3.3', 'flask-mysql']
+          state: present     
+
+    - name: actually start sql
+      shell: service mysql start
+      become: yes
+      become_user: root
+      become_method: sudo 
+
+    - name: create db
+      mysql_db: 
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+        name: employee_db 
+        state: present
+        login_user: root
+        login_password: ""
+        login_host: localhost
+      become: yes
+      become_user: root
+      become_method: sudo         
+
+    - name: create user
+      mysql_user: 
+        name: db_user 
+        state: present       
+        password: 12345
+        priv: '*.*:ALL'    
+        login_user: root
+        login_password: ""
+        login_host: localhost
+      become: yes
+      become_user: root
+      become_method: sudo              
+
+    - name: copy source
+      copy: src=app.py dest=/opt/app.py
+      become: yes
+      become_user: root
+      become_method: sudo    
+
+    - name: start web 
+      shell: nohup python3 -m flask --app /opt/app.py run -h 0.0.0.0 &   
