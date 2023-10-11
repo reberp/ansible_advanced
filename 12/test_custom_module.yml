@@ -1,0 +1,10 @@
+- name: test my module
+  hosts: localhost
+  tasks:
+  - name: run module
+    custom_debug:
+        msg: 'hello test'
+    register: custom_output
+  - name: print custom_output
+    debug: 
+      msg: '{{ custom_output }}'
