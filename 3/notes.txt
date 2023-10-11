@@ -1,0 +1,3 @@
+
+Folder names are default search locations. 
+Host vars are a file for each specific server. Not good for this use case. Can create a group in inventory. 

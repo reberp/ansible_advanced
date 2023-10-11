@@ -1,0 +1,12 @@
+- name: deploy a web app
+  hosts: db_and_web_server1
+  tasks:
+    - name: install depenencies
+      apt: 
+        name: ['python3', 'python-setuptools', 'python3-dev', 
+'build-essential', 'python3-pip', 'python3-apt'] 
+        state: present
+      become: yes            
+
+    - include: tasks/deploy_db.yml
+    - include: tasks/deploy_web.yml
