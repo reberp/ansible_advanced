@@ -1,0 +1,42 @@
+
+    - name: install mysql
+      apt: 
+        name: ['mysql-server','mysql-client','python3-mysqldb','libmysqlclient-dev']
+        state: present
+      become: yes
+
+    - name: install msql depenencies
+      pip: 
+          name: ['flask==2.3.3', 'flask-mysql']
+          state: present     
+
+    - name: actually start sql
+      shell: service mysql start
+      become: yes
+      become_user: root
+      become_method: sudo 
+
+    - name: create db
+      mysql_db: 
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+        name: "{{ db_name }}"
+        state: present
+        login_user: root
+        login_password: ""
+        login_host: localhost
+      become: yes
+      become_user: root
+      become_method: sudo         
+
+    - name: create user
+      mysql_user: 
+        name: "{{ db_user }}"
+        state: present       
+        password: "{{ db_password }}"
+        priv: '*.*:ALL'    
+        login_user: root
+        login_password: ""
+        login_host: localhost
+      become: yes
+      become_user: root
+      become_method: sudo  

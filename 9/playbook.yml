@@ -1,0 +1,7 @@
+- name: deploy a web app
+  hosts: db_and_web_server1
+  vars: 
+  roles:
+    - python
+    - mysql_db
+    - flask_web

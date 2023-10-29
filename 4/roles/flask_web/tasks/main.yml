@@ -1,0 +1,8 @@
+    - name: copy source
+      copy: src=app.py dest=/opt/app.py force=yes
+      become: yes
+      become_user: root
+      become_method: sudo    
+
+    - name: start web 
+      shell: nohup python3 -m flask --app /opt/app.py run -h 0.0.0.0 &   
